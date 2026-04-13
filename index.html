@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>BASE DE DATOS II - Inicio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fuente formal -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .fuente-formal { font-family: 'Merriweather', serif; }
+  </style>
+</head>
+<body class="bg-black text-gray-100 fuente-formal">
+
+  <!-- ENCABEZADO -->
+  <header class="bg-gradient-to-r from-blue-500 to-black text-white py-6 shadow-md">
+  <div class="container mx-auto px-1 flex items-center justify-between">
+    
+    <!-- Imagen lateral izquierda -->
+    <img src="Imagenes/upla.png" 
+         alt="Banner Semana" 
+         class="w-90 h-32 object-cover rounded-lg shadow-md">
+    
+    <!-- Texto centrado -->
+    <div class="flex-1 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">BASE DE DATOS II</h1>
+      <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+    </div>
+    
+  </div>
+</header>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main class="container mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <!-- Columna izquierda (menú vertical más a la izquierda) -->
+      <div class="col-span-1 space-y-4">
+        <!-- Opción 1: HOME -->
+        <a href="index.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
+          <h3 class="text-lg font-semibold text-white">🏠 Home</h3>
+        </a>
+
+        <!-- Opción 2: Git y GitHub -->
+        <a href="Contacto.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
+          <h3 class="text-lg font-semibold text-white">🧑 Contacto</h3>
+        </a>
+
+        <!-- Opción 3: Trabajos semanales -->
+        <a href="trabajos.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
+          <h3 class="text-lg font-semibold text-white">📚 Trabajos</h3>
+        </a>
+      </div>
+
+      <!-- Columna derecha (contenido principal más amplio) -->
+      <div class="col-span-3 bg-gray-900 border border-blue-600 rounded-lg p-8 shadow-md">
+        <!-- Importancia -->
+        <h2 class="text-3xl font-bold text-blue-300 mb-6">Introducción a Base de Datos II</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+          Base de Datos II es una continuación del estudio de los sistemas de gestión de bases de datos, 
+          donde se profundiza en conceptos avanzados que permiten diseñar, administrar y optimizar grandes 
+          volúmenes de información. A diferencia de los cursos iniciales, en este nivel se abordan temas 
+          como la normalización avanzada, transacciones, concurrencia, seguridad, optimización de consultas 
+          y bases de datos distribuidas.
+        </p>
+
+        <!-- Para qué sirve -->
+        <h2 class="text-2xl font-semibold text-blue-200 mb-4">Importancia de Base de Datos II</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+          Base de Datos II es importante porque permite manejar grandes volúmenes de información de forma 
+          eficiente, segura y organizada. Ayuda a optimizar el rendimiento de los sistemas, proteger los 
+          datos y garantizar que múltiples usuarios puedan acceder a la información sin errores.
+          Además, es fundamental en el desarrollo de aplicaciones modernas y sistemas empresariales, 
+          ya que las bases de datos son el núcleo donde se almacena y procesa la información.
+        </p>
+
+        <!-- Invitación -->
+        <p class="text-center text-xl font-bold text-green-400 italic">
+          🚀 ¡Anímate a estudiar base de datos II y sé parte del futuro tecnológico! 🌍
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="bg-gradient-to-r from-blue-800 to-black text-white py-10 mt-10 shadow-md">
+    <div class="container mx-auto px-6 text-center">
+      <h4 class="text-2xl font-semibold mb-2">Información</h4>
+      <p class="text-lg">Elaborado por: Andres Melvin Lazaro Estrada</p>
+      <p class="text-lg">Universidad Peruana Los Andes (UPLA)</p>
+    </div>
+  </footer>
+
+</body>
+</html>
