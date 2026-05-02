@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Merriweather', serif; }
-        /* Degradado exacto de la imagen que enviaste */
         .bg-upla-gradient { background: linear-gradient(135deg, #7F7DFD 0%, #68CFC9 100%); }
         .text-upla { color: #1F1F3D; }
     </style>
@@ -17,22 +16,18 @@
 
     <header class="bg-black text-white p-4 border-b border-blue-600">
         <div class="container mx-auto px-1 flex items-center justify-between">
-    
-            <!-- Imagen lateral izquierda -->
-            <img src="Imagenes/upla.png" 
-                 alt="Banner Semana" 
-                 class="w-90 h-32 object-cover rounded-lg shadow-md">
-            <!-- Texto centrado -->
+            <img src="Imagenes/upla.png" alt="UPLA" class="w-90 h-32 object-cover rounded-lg shadow-md">
             <div class="flex-1 text-center">
-              <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">BASE DE DATOS II</h1>
-              <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+                <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">BASE DE DATOS II</h1>
+                <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+            </div>
         </div>
     </header>
 
     <main class="flex-grow flex items-center justify-center p-6">
-        
+
         <div class="bg-white p-8 md:p-12 rounded-[2rem] shadow-[0_10px_50px_rgba(127,125,253,0.15)] w-full max-w-lg border border-gray-100">
-            
+
             <div class="mb-8">
                 <h1 class="text-3xl font-extrabold text-upla mb-2">Acceso al Portal</h1>
                 <p class="text-gray-500">Ingresa con tus credenciales institucionales UPLA</p>
@@ -41,26 +36,29 @@
             <div class="space-y-6">
                 <div>
                     <label class="block text-sm font-bold text-upla mb-2">Correo institucional</label>
-                    <input type="email" id="correoInput" placeholder="usuario@ms.upla.edu.pe" 
+                    <input type="email" id="correoInput" placeholder="usuario@ms.upla.edu.pe"
                            class="w-full p-4 border border-[#E0E0FE] rounded-2xl bg-[#F4F4FF] outline-none focus:border-[#7F7DFD] transition text-gray-600">
                 </div>
-                
+
                 <div>
                     <label class="block text-sm font-bold text-upla mb-2">Contraseña</label>
                     <div class="relative">
-                        <input type="password" id="passInput" placeholder="••••••••" 
+                        <input type="password" id="passInput" placeholder="••••••••"
                                class="w-full p-4 border border-[#E0E0FE] rounded-2xl bg-[#F4F4FF] outline-none focus:border-[#7F7DFD] transition text-gray-600">
-                        <span class="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400"></span>
                     </div>
                 </div>
-                
-                <button id="btnIngresar" class="w-full bg-upla-gradient text-white font-bold py-4 rounded-2xl transition transform hover:scale-[1.01] shadow-lg shadow-[#7F7DFD]/30 text-lg uppercase tracking-wider">
+
+                <button id="btnIngresar"
+                        class="w-full bg-upla-gradient text-white font-bold py-4 rounded-2xl transition transform hover:scale-[1.01] shadow-lg shadow-[#7F7DFD]/30 text-lg uppercase tracking-wider">
                     Ingresar
                 </button>
-                
-                <p id="errorMsg" class="text-red-500 text-sm text-center hidden font-bold">❌ Credenciales incorrectas</p>
+
+                <p id="errorMsg" class="text-red-500 text-sm text-center hidden font-bold">
+                    ❌ Credenciales incorrectas
+                </p>
             </div>
 
+            <!-- Info de demo -->
             <div class="mt-10 p-5 bg-[#F4F4FF] rounded-2xl border border-[#E0E0FE] text-[13px] text-gray-500 leading-relaxed">
                 <p><strong class="text-gray-700">Demo Admin:</strong> T01293C@ms.upla.edu.pe / 987654</p>
                 <p class="mt-1"><strong class="text-gray-700">Demo Estudiante:</strong> estudiante@ms.upla.edu.pe / 123456</p>
@@ -75,42 +73,63 @@
     </footer>
 
     <script type="module">
-        import { supabase } from './supabase-config.js';
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = "https://taacamsxwgjrmmgrejmf.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhYWNhbXN4d2dqcm1tZ3Jlam1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMjE2MzUsImV4cCI6MjA5Mjg5NzYzNX0.EzHzYh1neWRoocnPzwqEg72q4LJ_mB677E8nlXShvYs";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const btnIngresar = document.getElementById('btnIngresar');
-        const errorMsg = document.getElementById('errorMsg');
+        const errorMsg    = document.getElementById('errorMsg');
 
-        btnIngresar.addEventListener('click', async () => {
-            const correo = document.getElementById('correoInput').value;
-            const pass = document.getElementById('passInput').value;
+        async function intentarLogin() {
+            const correo = document.getElementById('correoInput').value.trim();
+            const pass   = document.getElementById('passInput').value;
 
-            if(!correo || !pass) return alert("Completa los campos");
+            if (!correo || !pass) {
+                alert("Completa todos los campos");
+                return;
+            }
 
             btnIngresar.innerText = "Verificando...";
+            btnIngresar.disabled  = true;
             errorMsg.classList.add('hidden');
 
             const { data, error } = await supabase
                 .from('usuarios')
                 .select('rol, correo')
                 .eq('correo', correo)
-                .eq('contrasena', pass);
+                .eq('contrasena', pass)
+                .single(); // esperamos exactamente 1 resultado
 
             if (error || !data) {
+                // Credenciales incorrectas o usuario no existe
                 errorMsg.classList.remove('hidden');
                 btnIngresar.innerText = "Ingresar";
-            } else {
-                // Guardamos los datos de sesión
-                localStorage.setItem('userRol', data.rol);
-                localStorage.setItem('userCorreo', data.correo);
-                localStorage.setItem('adminLogueado', 'true');
-                
-                // Redirigimos a la página de trabajos
-                window.location.href = 'trabajos.html';
+                btnIngresar.disabled  = false;
+                return;
             }
-        });
 
-        // Soporte para tecla Enter
-        document.addEventListener('keypress', (e) => { if(e.key === 'Enter') btnIngresar.click(); });
+            // ── Guardar sesión ──────────────────────────────────────
+            localStorage.setItem('userRol',      data.rol);
+            localStorage.setItem('userCorreo',   data.correo);
+            localStorage.setItem('adminLogueado', data.rol === 'admin' ? 'true' : 'false');
+
+            // ── Redirigir según rol ─────────────────────────────────
+            if (data.rol === 'admin') {
+                window.location.href = 'admin.html';      // Admin → panel de gestión
+            } else {
+                window.location.href = 'index.html';      // Estudiante → página principal
+            }
+        }
+
+        btnIngresar.addEventListener('click', intentarLogin);
+
+        // Soporte tecla Enter
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') intentarLogin();
+        });
     </script>
+
 </body>
 </html>

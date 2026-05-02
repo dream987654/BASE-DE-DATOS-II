@@ -10,113 +10,225 @@
 <body class="bg-black text-gray-100 p-6 md:p-10" style="font-family: 'Merriweather', serif;">
 
     <div class="container mx-auto max-w-4xl">
+
+        <!-- ENCABEZADO -->
         <div class="flex justify-between items-center mb-10 border-b border-blue-600 pb-4">
             <div>
-                <h1 class="text-3xl font-bold text-blue-400 text-shadow-lg">⚙️ Dashboard Académico</h1>
-                <p class="text-sm text-gray-400">Conectado a Supabase (PostgreSQL)</p>
+                <h1 class="text-3xl font-bold text-blue-400">⚙️ Dashboard Académico</h1>
+                <p class="text-sm text-gray-400">Conectado a Supabase Storage</p>
             </div>
             <button onclick="cerrarSesion()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold transition">Salir</button>
         </div>
 
+        <!-- FORMULARIO DE SUBIDA -->
         <div class="bg-gray-900 border border-blue-900 p-8 rounded-xl shadow-2xl mb-10">
-            <h2 class="text-xl mb-6 font-bold text-blue-200 uppercase tracking-widest text-center">Registrar Nueva Tarea</h2>
-            
+            <h2 class="text-xl mb-6 font-bold text-blue-200 uppercase tracking-widest text-center">📤 Subir Nuevo Archivo</h2>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="col-span-1">
+
+                <!-- Unidad -->
+                <div>
+                    <label class="block text-xs mb-1 text-gray-500 uppercase">Unidad</label>
+                    <select id="inputUnidad" class="w-full p-3 bg-black border border-gray-800 rounded outline-none focus:border-blue-500 text-white">
+                        <option value="1">Unidad 1</option>
+                        <option value="2">Unidad 2</option>
+                        <option value="3">Unidad 3</option>
+                        <option value="4">Unidad 4</option>
+                    </select>
+                </div>
+
+                <!-- Semana -->
+                <div>
                     <label class="block text-xs mb-1 text-gray-500 uppercase">Semana</label>
-                    <input type="number" id="semanaTarea" placeholder="Ej: 3" 
+                    <select id="inputSemana" class="w-full p-3 bg-black border border-gray-800 rounded outline-none focus:border-blue-500 text-white">
+                        <option value="1">Semana 1</option>
+                        <option value="2">Semana 2</option>
+                        <option value="3">Semana 3</option>
+                        <option value="4">Semana 4</option>
+                    </select>
+                </div>
+
+                <!-- Título -->
+                <div class="col-span-1 md:col-span-2">
+                    <label class="block text-xs mb-1 text-gray-500 uppercase">Título del archivo</label>
+                    <input type="text" id="inputTitulo" placeholder="Ej: Resumen Semana 1"
                            class="w-full p-3 bg-black border border-gray-800 rounded outline-none focus:border-blue-500 text-white">
                 </div>
-                <div class="col-span-1">
-                    <label class="block text-xs mb-1 text-gray-500 uppercase">Título</label>
-                    <input type="text" id="tituloTarea" placeholder="Nombre de la actividad" 
-                           class="w-full p-3 bg-black border border-gray-800 rounded outline-none focus:border-blue-500 text-white">
+
+                <!-- Selector de archivo -->
+                <div class="col-span-1 md:col-span-2">
+                    <label class="block text-xs mb-1 text-gray-500 uppercase">Archivo (PDF, EXE, etc.)</label>
+                    <input type="file" id="inputArchivo"
+                           class="w-full p-3 bg-black border border-gray-800 rounded text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-700 file:text-white file:font-bold hover:file:bg-blue-600 cursor-pointer">
                 </div>
-                <div class="col-span-2">
-                    <label class="block text-xs mb-1 text-gray-500 uppercase">URL del Archivo (GitHub/Drive)</label>
-                    <input type="url" id="urlTarea" placeholder="https://github.com/..." 
-                           class="w-full p-3 bg-black border border-gray-800 rounded outline-none focus:border-blue-500 text-white">
-                </div>
-                
-                <button id="btnGuardar" class="w-full bg-blue-700 hover:bg-blue-600 p-4 rounded-lg font-bold text-lg transition col-span-2 shadow-inner">
-                    💾 Guardar en Base de Datos
+
+                <!-- Botón subir -->
+                <button id="btnSubir" onclick="subirArchivo()"
+                        class="col-span-1 md:col-span-2 w-full bg-blue-700 hover:bg-blue-600 p-4 rounded-lg font-bold text-lg transition shadow-inner">
+                    📤 Subir Archivo a Supabase
                 </button>
             </div>
+
+            <!-- Barra de progreso -->
+            <div id="barraContenedor" class="mt-4 hidden">
+                <div class="w-full bg-gray-800 rounded-full h-3">
+                    <div id="barraProgreso" class="bg-blue-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p id="barraTexto" class="text-xs text-gray-400 mt-1 text-center">Subiendo...</p>
+            </div>
+
             <p id="statusMsg" class="mt-4 text-center font-bold hidden"></p>
         </div>
 
+        <!-- LISTA DE MATERIALES -->
         <div class="bg-gray-900 border border-gray-800 p-8 rounded-xl">
-            <h2 class="text-xl mb-6 font-bold text-gray-400">Materiales en la Nube</h2>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-400">📁 Materiales en la Nube</h2>
+                <!-- Filtros -->
+                <div class="flex gap-2">
+                    <select id="filtroUnidad" onchange="obtenerMateriales()"
+                            class="p-2 bg-black border border-gray-700 rounded text-white text-sm outline-none focus:border-blue-500">
+                        <option value="">Todas las unidades</option>
+                        <option value="1">Unidad 1</option>
+                        <option value="2">Unidad 2</option>
+                        <option value="3">Unidad 3</option>
+                        <option value="4">Unidad 4</option>
+                    </select>
+                    <select id="filtroSemana" onchange="obtenerMateriales()"
+                            class="p-2 bg-black border border-gray-700 rounded text-white text-sm outline-none focus:border-blue-500">
+                        <option value="">Todas las semanas</option>
+                        <option value="1">Semana 1</option>
+                        <option value="2">Semana 2</option>
+                        <option value="3">Semana 3</option>
+                        <option value="4">Semana 4</option>
+                    </select>
+                </div>
+            </div>
+
             <div id="listaMateriales" class="space-y-3">
-                <p class="text-gray-600 text-center italic">Cargando datos de la tabla materiales...</p>
+                <p class="text-gray-600 text-center italic">Cargando materiales...</p>
             </div>
         </div>
+
     </div>
 
     <script type="module">
-        // ... (Dentro de tu script de admin.html) ...
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-// Función para filtrar y mostrar archivos de una semana específica
-async function consultarSemana() {
-    const uni = document.getElementById('selectUnidad').value;
-    const sem = document.getElementById('selectSemana').value;
-    const listaDiv = document.getElementById('listaMateriales');
-    
-    listaDiv.innerHTML = "<p class='text-blue-400 italic text-center'>Buscando archivos...</p>";
+        const SUPABASE_URL = "https://taacamsxwgjrmmgrejmf.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhYWNhbXN4d2dqcm1tZ3Jlam1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMjE2MzUsImV4cCI6MjA5Mjg5NzYzNX0.EzHzYh1neWRoocnPzwqEg72q4LJ_mB677E8nlXShvYs";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const { data, error } = await supabase
-        .from('materiales')
-        .select('*')
-        .eq('unidad', uni)
-        .eq('semana', sem);
-
-    if (data.length === 0) {
-        listaDiv.innerHTML = "<p class='text-gray-600 text-center'>No hay archivos en esta semana.</p>";
-        return;
-    }
-
-    listaDiv.innerHTML = "";
-    data.forEach(item => {
-        listaDiv.innerHTML += `
-            <div class="flex justify-between bg-black p-4 rounded border border-gray-800 mb-2">
-                <div>
-                    <p class="text-blue-200 font-bold">${item.titulo}</p>
-                    <p class="text-xs text-gray-500 italic">ID: ${item.id}</p>
-                </div>
-                <div class="flex gap-4">
-                    <a href="${item.url_archivo}" target="_blank" class="text-green-500 hover:underline">Ver</a>
-                    <button onclick="borrarArchivo(${item.id})" class="text-red-600 font-bold">ELIMINAR</button>
-                </div>
-            </div>
-        `;
-    });
-}
-        import { supabase } from './supabase-config.js';
-
-        // Seguridad: Si no hay login, vuelve atrás
+        // Seguridad: solo admin puede entrar
         if (localStorage.getItem('adminLogueado') !== 'true') {
             window.location.href = 'login.html';
         }
 
-        const btnGuardar = document.getElementById('btnGuardar');
-        const listaDiv = document.getElementById('listaMateriales');
+        // ─── SUBIR ARCHIVO ───────────────────────────────────────────
+        window.subirArchivo = async () => {
+            const unidad  = document.getElementById('inputUnidad').value;
+            const semana  = document.getElementById('inputSemana').value;
+            const titulo  = document.getElementById('inputTitulo').value.trim();
+            const archivo = document.getElementById('inputArchivo').files[0];
 
-        // Función para leer la tabla
-        async function obtenerMateriales() {
-            listaDiv.innerHTML = "<p class='text-center text-gray-700'>Consultando base de datos...</p>";
+            if (!titulo || !archivo) {
+                alert("Completa el título y selecciona un archivo.");
+                return;
+            }
             
-            const { data, error } = await supabase
+
+            // Construimos la ruta dentro del bucket: unidad1/semana2/nombre_archivo.pdf
+            const nombreLimpio = archivo.name.replace(/\s+/g, '_');
+            const rutaBucket = `unidad${unidad}/semana${semana}/${Date.now()}_${nombreLimpio}`;
+
+            const btn = document.getElementById('btnSubir');
+            btn.disabled = true;
+            btn.innerText = "Subiendo...";
+
+            // Mostrar barra de progreso
+            document.getElementById('barraContenedor').classList.remove('hidden');
+            document.getElementById('barraProgreso').style.width = '30%';
+            document.getElementById('barraTexto').innerText = "Subiendo archivo...";
+
+            // 1. Subir archivo a Storage
+            const { data: storageData, error: storageError } = await supabase.storage
                 .from('materiales')
-                .select('*')
-                .order('semana', { ascending: true });
+                .upload(rutaBucket, archivo, { upsert: false });
+
+            if (storageError) {
+                alert("Error al subir el archivo: " + storageError.message);
+                btn.disabled = false;
+                btn.innerText = "📤 Subir Archivo a Supabase";
+                document.getElementById('barraContenedor').classList.add('hidden');
+                return;
+            }
+            
+
+            document.getElementById('barraProgreso').style.width = '70%';
+            document.getElementById('barraTexto').innerText = "Guardando en base de datos...";
+
+            // 2. Obtener URL pública del archivo
+            const { data: urlData } = supabase.storage
+                .from('materiales')
+                .getPublicUrl(rutaBucket);
+
+            const urlPublica = urlData.publicUrl;
+
+            // 3. Guardar registro en la tabla materiales
+            const { error: dbError } = await supabase
+                .from('materiales')
+                .insert([{
+                    unidad:      parseInt(unidad),
+                    semana:      parseInt(semana),
+                    titulo:      titulo,
+                    url_archivo: urlPublica
+                }]);
+
+            if (dbError) {
+                alert("Archivo subido pero error al guardar en BD: " + dbError.message);
+            } else {
+                document.getElementById('barraProgreso').style.width = '100%';
+                document.getElementById('barraTexto').innerText = "¡Listo!";
+
+                mostrarStatus("✅ Archivo subido correctamente", "text-green-400");
+
+                // Limpiar formulario
+                document.getElementById('inputTitulo').value = "";
+                document.getElementById('inputArchivo').value = "";
+
+                setTimeout(() => {
+                    document.getElementById('barraContenedor').classList.add('hidden');
+                    document.getElementById('barraProgreso').style.width = '0%';
+                }, 2000);
+
+                obtenerMateriales();
+            }
+
+            btn.disabled = false;
+            btn.innerText = "📤 Subir Archivo a Supabase";
+        };
+
+        // ─── OBTENER Y MOSTRAR MATERIALES ────────────────────────────
+        window.obtenerMateriales = async () => {
+            const listaDiv = document.getElementById('listaMateriales');
+            const filtroU  = document.getElementById('filtroUnidad').value;
+            const filtroS  = document.getElementById('filtroSemana').value;
+
+            listaDiv.innerHTML = "<p class='text-center text-gray-700 italic'>Consultando base de datos...</p>";
+
+            let query = supabase.from('materiales').select('*').order('unidad').order('semana');
+            if (filtroU) query = query.eq('unidad', filtroU);
+            if (filtroS) query = query.eq('semana', filtroS);
+
+            const { data, error } = await query;
 
             if (error) {
                 listaDiv.innerHTML = `<p class='text-red-500'>Error: ${error.message}</p>`;
                 return;
             }
 
-            if (data.length === 0) {
-                listaDiv.innerHTML = "<p class='text-gray-600 text-center'>No hay registros aún.</p>";
+            if (!data || data.length === 0) {
+                listaDiv.innerHTML = "<p class='text-gray-600 text-center italic'>No hay archivos registrados aún.</p>";
                 return;
             }
 
@@ -125,79 +237,78 @@ async function consultarSemana() {
                 listaDiv.innerHTML += `
                     <div class="flex justify-between items-center bg-black p-4 rounded-lg border-l-4 border-blue-700 hover:bg-gray-950 transition">
                         <div>
-                            <span class="text-blue-500 font-bold mr-2">Semana ${item.semana}</span>
-                            <span class="text-gray-200">${item.titulo}</span>
+                            <p class="text-blue-400 text-xs font-bold uppercase mb-1">Unidad ${item.unidad} — Semana ${item.semana}</p>
+                            <p class="text-gray-200 font-bold">${item.titulo}</p>
                         </div>
-                        <div class="flex gap-4 items-center">
-                            <a href="${item.url_archivo}" target="_blank" class="text-blue-400 hover:underline text-sm font-bold">PDF</a>
-                            <button onclick="eliminarRegistro(${item.id})" class="text-red-900 hover:text-red-500 text-xs">Borrar</button>
+                        <div class="flex gap-4 items-center ml-4 shrink-0">
+                            <a href="${item.url_archivo}" target="_blank"
+                               class="bg-blue-800 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded font-bold transition">
+                                👁️ Ver
+                            </a>
+                            <button onclick="eliminarMaterial(${item.id}, '${item.url_archivo}')"
+                                    class="bg-red-900 hover:bg-red-700 text-white text-xs px-3 py-2 rounded font-bold transition">
+                                🗑️ Eliminar
+                            </button>
                         </div>
                     </div>
                 `;
             });
-        }
+        };
 
-        // Función para guardar
-        btnGuardar.addEventListener('click', async () => {
-            const semana = document.getElementById('semanaTarea').value;
-            const titulo = document.getElementById('tituloTarea').value;
-            const url = document.getElementById('urlTarea').value;
+        // ─── ELIMINAR MATERIAL ───────────────────────────────────────
+        window.eliminarMaterial = async (id, urlArchivo) => {
+            if (!confirm("¿Seguro que quieres eliminar este archivo? Esta acción no se puede deshacer.")) return;
 
-            if (!semana || !titulo || !url) {
-                alert("Completa todos los campos");
-                return;
-            }
+            // Extraer la ruta relativa dentro del bucket desde la URL pública
+            // La URL tiene la forma: .../storage/v1/object/public/materiales/unidad1/semana1/archivo.pdf
+            const rutaRelativa = urlArchivo.split('/storage/v1/object/public/materiales/')[1];
 
-            btnGuardar.innerText = "Procesando...";
-            btnGuardar.disabled = true;
-
-            const { data, error } = await supabase
-                .from('materiales')
-                .insert([
-                    { semana: semana, titulo: titulo, url_archivo: url }
-                ]);
-
-            if (error) {
-                alert("Error al guardar: " + error.message);
-            } else {
-                document.getElementById('statusMsg').innerText = "¡Registro guardado!";
-                document.getElementById('statusMsg').classList.remove('hidden');
-                setTimeout(() => document.getElementById('statusMsg').classList.add('hidden'), 3000);
-                
-                // Limpiar campos
-                document.getElementById('semanaTarea').value = "";
-                document.getElementById('tituloTarea').value = "";
-                document.getElementById('urlTarea').value = "";
-                
-                obtenerMateriales(); // Recargar la lista
-            }
-            btnGuardar.innerText = "💾 Guardar en Base de Datos";
-            btnGuardar.disabled = false;
-        });
-
-        // Hacer la función de eliminar accesible globalmente
-        window.eliminarRegistro = async (id) => {
-            if(confirm("¿Seguro que quieres borrar este material?")) {
-                const { error } = await supabase
+            // 1. Eliminar de Storage (si la ruta se pudo extraer)
+            if (rutaRelativa) {
+                const { error: storageError } = await supabase.storage
                     .from('materiales')
-                    .delete()
-                    .eq('id', id);
-                
-                if (error) alert("Error: " + error.message);
-                else obtenerMateriales();
+                    .remove([rutaRelativa]);
+
+                if (storageError) {
+                    console.warn("No se pudo borrar el archivo de Storage:", storageError.message);
+                }
+            }
+
+            // 2. Eliminar registro de la tabla
+            const { error: dbError } = await supabase
+                .from('materiales')
+                .delete()
+                .eq('id', id);
+
+            if (dbError) {
+                alert("Error al eliminar de la base de datos: " + dbError.message);
+            } else {
+                mostrarStatus("🗑️ Archivo eliminado correctamente", "text-red-400");
+                obtenerMateriales();
             }
         };
 
-        // Cargar datos al entrar
-        obtenerMateriales();
+        // ─── HELPER: mostrar mensaje de estado ───────────────────────
+        function mostrarStatus(msg, colorClass) {
+            const el = document.getElementById('statusMsg');
+            el.innerText = msg;
+            el.className = `mt-4 text-center font-bold ${colorClass}`;
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 4000);
+        }
 
+        // Cargar al entrar
+        obtenerMateriales();
     </script>
 
     <script>
         function cerrarSesion() {
             localStorage.removeItem('adminLogueado');
+            localStorage.removeItem('userRol');
+            localStorage.removeItem('userCorreo');
             window.location.href = 'index.html';
         }
     </script>
+
 </body>
 </html>

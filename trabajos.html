@@ -27,7 +27,11 @@
       <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">Trabajos Semanales</h1>
       <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
     </div>
-    
+    <div class="flex-1 text-right">
+      <a href="login.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
+        📚 Iniciar sesion
+      </a>
+    </div>
   </div>
 </header>
 
@@ -63,8 +67,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <a href="semanas/Semana 1.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 1</a>
           <a href="semanas/Semana 2.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 2</a>
-          <a href="semanas/Semanas 3.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 3</a>
-          <a href="semanas/Semanas 4.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 4</a>
+          <a href="semanas/Semana 3.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 3</a>
+          <a href="semanas/Semana 4.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 4</a>
           <a href="semanas/Semanas 5.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 5</a>
           <a href="semanas/Semanas 6.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 6</a>
           <a href="semanas/Semanas 7.html" class="block bg-blue-900 hover:bg-blue-700 p-6 rounded-lg shadow-md text-center font-semibold text-white">Semana 7</a>
@@ -93,8 +97,54 @@
 
   <!-- SCRIPT PROGRESO -->
   <script>
+    // ... (Dentro del script de trabajos.html) ...
+      import { supabase } from './supabase-config.js';
+
+      const rolUsuario = localStorage.getItem('userRol'); // 'admin' o 'estudiante'
+
+      async function cargarContenidoDinamico() {
+          // 1. Obtenemos todos los materiales de Supabase
+          const { data: materiales, error } = await supabase
+              .from('materiales')
+              .select('*')
+              .order('semana', { ascending: true });
+
+          // 2. Iteramos por cada semana (1 a 16)
+          for (let i = 1; i <= 16; i++) {
+              const contenedorSemana = document.getElementById(`semana-${i}`);
+              
+              // Filtramos los materiales de esta semana específica
+              const archivosDeLaSemana = materiales.filter(m => m.semana == i);
+
+              // 3. Dibujamos los archivos (comportamiento de estudiante)
+              archivosDeLaSemana.forEach(archivo => {
+                  let htmlArchivo = `
+                      <div class="archivo-item">
+                          <span>📄 ${archivo.titulo}</span>
+                          <a href="${archivo.url_archivo}" target="_blank">Ver</a>
+                  `;
+
+                  // OJO AQUÍ: Si es ADMIN, le agregamos el TACHITO
+                  if (rolUsuario === 'admin') {
+                      htmlArchivo += `<button onclick="borrar(${archivo.id})">🗑️</button>`;
+                  }
+
+                  htmlArchivo += `</div>`;
+                  contenedorSemana.innerHTML += htmlArchivo;
+              });
+
+              // 4. Si es ADMIN, agregamos el botón de "Subir" al final de la semana
+              if (rolUsuario === 'admin') {
+                  contenedorSemana.innerHTML += `
+                      <button class="btn-subir" onclick="abrirModalSubida(${i})">
+                          ➕ Subir a Semana ${i}
+                      </button>
+                  `;
+              }
+          }
+      }
     // 🔥 Número de semanas completadas
-    let semanasCompletadas = 1; // cámbialo según tu avance
+    let semanasCompletadas = 4; // cámbialo según tu avance
     let totalSemanas = 16;
 
     let porcentaje = (semanasCompletadas / totalSemanas) * 100;
