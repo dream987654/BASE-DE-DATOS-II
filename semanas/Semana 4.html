@@ -2,10 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title> Semana 4 - Base de Datos II</title>
+  <title>Semana 4 - Base de Datos II</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fuente formal -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
   <style>
     .fuente-formal { font-family: 'Merriweather', serif; }
@@ -15,73 +13,45 @@
 
   <!-- ENCABEZADO -->
   <header class="bg-gradient-to-r from-blue-500 to-black text-white py-6 shadow-md">
-  <div class="container mx-auto px-1 flex items-center justify-between">
-    
-    <!-- Imagen lateral izquierda -->
-    <img src="../Imagenes/upla.png" 
-         alt="Banner Semana" 
-         class="w-90 h-32 object-cover rounded-lg shadow-md">
-    
-    <!-- Texto centrado -->
-    <div class="flex-1 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">Semana 4</h1>
-      <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+    <div class="container mx-auto px-1 flex items-center justify-between">
+      <img src="../Imagenes/upla.png" alt="UPLA" class="w-90 h-32 object-cover rounded-lg shadow-md">
+      <div class="flex-1 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">Semana 4</h1>
+        <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+      </div>
+      <div class="flex-1 text-right">
+        <a id="btnSesion" href="../login.html"
+           class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
+          📚 Iniciar sesión
+        </a>
+      </div>
     </div>
-    <div class="flex-1 text-right">
-      <a href="login.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-        📚 Iniciar sesion
-      </a>
-    </div>
-  </div>
-</header>
+  </header>
 
   <!-- CUERPO PRINCIPAL -->
   <main class="container mx-auto px-6 py-16">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 
-      <!-- Menú lateral fijo -->
+      <!-- Menú lateral -->
       <div class="col-span-1 space-y-4 sticky top-20 self-start">
-        <a href="../index.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-          🏠 Home
-        </a>
-        <a href="../Contacto.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-          🧑 Contacto
-        </a>
-        <a href="../trabajos.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-          📚 Trabajos
-        </a>
+        <a href="../index.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">🏠 Home</a>
+        <a href="../Contacto.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">🧑 Contacto</a>
+        <a href="../trabajos.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">📚 Trabajos</a>
       </div>
 
-      <!-- Contenido principal -->
-      <div class="col-span-3 bg-gray-900 border border-blue-600 rounded-lg p-8 shadow-md space-y-10">
+      <!-- Contenido dinámico -->
+      <div class="col-span-3 bg-gray-900 border border-blue-600 rounded-lg p-8 shadow-md space-y-6">
 
-        <!-- Caja única de enunciado -->
-        <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 rounded-lg shadow-lg text-center">
-          <h3 class="text-xl font-bold mb-2">📥 Descargar Archivo clase 4</h3>
-          <a href="../Unidades/UNIDAD 1/SEMANA 4/Resumen_Sesion04_2025.exe" download class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200">
-            Descargar PDF
-          </a>
-        </div>
-
-        <!-- Ejercicio 1 -->
-        <section>
-          <h2 class="text-2xl font-bold text-blue-300 mb-4">📘 Actividad  1</h2>
-          <p class="mb-4">
-            Resumen del documento trabajado en clase.
-          </p>
-          <!-- Caja GitHub -->
-          <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 rounded-lg shadow-lg text-center">
-            <h3 class="text-xl font-bold mb-2">📥 Descargar Documento</h3>
-            <a href="../Unidades/UNIDAD 1/SEMANA 4/Resumen semana 4.pdf" download class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200">
-            Descargar PDF
-          </a>
-            <h3 class="text-xl font-bold mb-2"><br>🌍 Repositorio en GitHub</h3>
-            <a href="https://github.com/dream987654/BASE-DE-DATOS-II/blob/main/Unidades/SEMANA%204/Resumen%20semana%204.pdf" target="_blank" class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200">
-              Ver en GitHub
-            </a>
+        <div id="contenidoSemana">
+          <!-- Spinner de carga -->
+          <div class="flex flex-col items-center justify-center py-20 text-gray-500">
+            <svg class="animate-spin h-10 w-10 mb-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            <p class="italic">Cargando archivos desde Supabase...</p>
           </div>
-        </section>
-
+        </div>
 
       </div>
     </div>
@@ -95,6 +65,100 @@
       <p class="text-lg">Universidad Peruana Los Andes (UPLA)</p>
     </div>
   </footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = "https://taacamsxwgjrmmgrejmf.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhYWNhbXN4d2dqcm1tZ3Jlam1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMjE2MzUsImV4cCI6MjA5Mjg5NzYzNX0.EzHzYh1neWRoocnPzwqEg72q4LJ_mB677E8nlXShvYs";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const UNIDAD  = 1;       // Unidad de esta semana
+    const SEMANA  = 4; // Número de semana
+
+    const contenedor  = document.getElementById('contenidoSemana');
+    const esAdmin     = localStorage.getItem('adminLogueado') === 'true';
+    const esSesion    = localStorage.getItem('userCorreo');
+
+    // Ajustar botón de sesión en el header
+    if (esSesion) {
+      const btn = document.getElementById('btnSesion');
+      btn.innerText = '🚪 Cerrar sesión';
+      btn.href = '#';
+      btn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.reload();
+      });
+    }
+
+    // ── Cargar archivos de esta semana desde Supabase ──────────────
+    async function cargarArchivos() {
+      const { data, error } = await supabase
+        .from('materiales')
+        .select('*')
+        .eq('unidad', UNIDAD)
+        .eq('semana', SEMANA)
+        .order('id', { ascending: true });
+
+      if (error) {
+        contenedor.innerHTML = `<p class="text-red-500 text-center">Error al cargar: ${error.message}</p>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        contenedor.innerHTML = `
+          <div class="text-center py-16 text-gray-600">
+            <p class="text-5xl mb-4">📭</p>
+            <p class="text-lg italic">Aún no hay archivos cargados para esta semana.</p>
+            ${esAdmin ? `<p class="text-xs text-blue-700 mt-2">Ve al panel admin para subir archivos.</p>` : ''}
+          </div>`;
+        return;
+      }
+
+      contenedor.innerHTML = '';
+      data.forEach((item, index) => {
+        const extension = item.url_archivo.split('.').pop().toLowerCase();
+        const icono = extension === 'pdf' ? '📄' : extension === 'exe' ? '💾' : '📎';
+
+        contenedor.innerHTML += `
+          <div class="bg-gradient-to-r from-blue-900 to-gray-900 border border-blue-700 rounded-xl p-6 shadow-lg">
+            <div class="flex justify-between items-start mb-4">
+              <h2 class="text-xl font-bold text-blue-300">${icono} Actividad ${index + 1}</h2>
+              ${esAdmin ? `
+                <button onclick="eliminarArchivo(${item.id}, '${item.url_archivo}')"
+                  class="bg-red-900 hover:bg-red-700 text-white text-xs px-3 py-1 rounded font-bold transition">
+                  🗑️ Eliminar
+                </button>` : ''}
+            </div>
+            <p class="text-gray-300 mb-5">${item.titulo}</p>
+            <div class="flex flex-wrap gap-3 justify-center">
+              <a href="${item.url_archivo}" target="_blank"
+                 class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
+                📥 Descargar
+              </a>
+              <a href="${item.url_archivo}" target="_blank"
+                 class="bg-blue-700 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                👁️ Ver archivo
+              </a>
+            </div>
+          </div>`;
+      });
+    }
+
+    // ── Eliminar (solo admin) ──────────────────────────────────────
+    window.eliminarArchivo = async (id, urlArchivo) => {
+      if (!confirm('¿Eliminar este archivo? Esta acción no se puede deshacer.')) return;
+
+      const rutaRelativa = urlArchivo.split('/storage/v1/object/public/materiales/')[1];
+      if (rutaRelativa) {
+        await supabase.storage.from('materiales').remove([rutaRelativa]);
+      }
+      await supabase.from('materiales').delete().eq('id', id);
+      cargarArchivos();
+    };
+
+    cargarArchivos();
+  </script>
 
 </body>
 </html>
