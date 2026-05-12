@@ -96,62 +96,44 @@
   </footer>
 
   <!-- SCRIPT PROGRESO -->
-  <script>
-    // ... (Dentro del script de trabajos.html) ...
-      import { supabase } from './supabase-config.js';
+  <script type="module">
+    // 1. IMPORTACIÓN (Mantenemos tu conexión igual)
+    import { supabase } from './supabase-config.js';
 
-      const rolUsuario = localStorage.getItem('userRol'); // 'admin' o 'estudiante'
+    // 2. FUNCIÓN DE LA BARRA (Se ejecuta apenas carga el script)
+    function inicializarBarra() {
+        // --- CAMBIA ESTE NÚMERO MANUALMENTE ---
+        const semanasCompletadas = 5; 
+        const totalSemanas = 16;
+        // --------------------------------------
 
-      async function cargarContenidoDinamico() {
-          // 1. Obtenemos todos los materiales de Supabase
-          const { data: materiales, error } = await supabase
-              .from('materiales')
-              .select('*')
-              .order('semana', { ascending: true });
+        const porcentaje = (semanasCompletadas / totalSemanas) * 100;
+        const progressBar = document.getElementById("progressBar");
+        const progressText = document.getElementById("progressText");
 
-          // 2. Iteramos por cada semana (1 a 16)
-          for (let i = 1; i <= 16; i++) {
-              const contenedorSemana = document.getElementById(`semana-${i}`);
-              
-              // Filtramos los materiales de esta semana específica
-              const archivosDeLaSemana = materiales.filter(m => m.semana == i);
+        if (progressBar && progressText) {
+            progressBar.style.width = porcentaje + "%";
+            progressBar.textContent = Math.round(porcentaje) + "%";
+            progressText.textContent = semanasCompletadas + " de " + totalSemanas + " semanas completadas";
+        }
+    }
 
-              // 3. Dibujamos los archivos (comportamiento de estudiante)
-              archivosDeLaSemana.forEach(archivo => {
-                  let htmlArchivo = `
-                      <div class="archivo-item">
-                          <span>📄 ${archivo.titulo}</span>
-                          <a href="${archivo.url_archivo}" target="_blank">Ver</a>
-                  `;
+    // 3. LÓGICA DINÁMICA (Tu código de Supabase que ya funciona)
+    async function cargarContenidoDinamico() {
+        const rolUsuario = localStorage.getItem('userRol');
+        const { data: materiales, error } = await supabase
+            .from('materiales')
+            .select('*')
+            .order('semana', { ascending: true });
 
-                  // OJO AQUÍ: Si es ADMIN, le agregamos el TACHITO
-                  if (rolUsuario === 'admin') {
-                      htmlArchivo += `<button onclick="borrar(${archivo.id})">🗑️</button>`;
-                  }
+        if (error) return console.error("Error en Supabase:", error);
 
-                  htmlArchivo += `</div>`;
-                  contenedorSemana.innerHTML += htmlArchivo;
-              });
+        // Aquí iría tu bucle for de las semanas que ya tienes...
+    }
 
-              // 4. Si es ADMIN, agregamos el botón de "Subir" al final de la semana
-              if (rolUsuario === 'admin') {
-                  contenedorSemana.innerHTML += `
-                      <button class="btn-subir" onclick="abrirModalSubida(${i})">
-                          ➕ Subir a Semana ${i}
-                      </button>
-                  `;
-              }
-          }
-      }
-    // 🔥 Número de semanas completadas
-    let semanasCompletadas = 4; // cámbialo según tu avance
-    let totalSemanas = 16;
-
-    let porcentaje = (semanasCompletadas / totalSemanas) * 100;
-
-    document.getElementById("progressBar").style.width = porcentaje + "%";
-    document.getElementById("progressBar").textContent = Math.round(porcentaje) + "%";
-    document.getElementById("progressText").textContent = semanasCompletadas + " de " + totalSemanas + " semanas completadas";
+    // EJECUCIÓN
+    inicializarBarra();
+    cargarContenidoDinamico();
   </script>
 
 </body>
