@@ -8,7 +8,80 @@
   <!-- Fuente formal -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    .fuente-formal { font-family: 'Merriweather', serif; }
+    /* Fondo total y textos por defecto */
+    body {
+        background-color: #030812 !important; /* Fondo azul noche ultra oscuro */
+        color: #00f2fe !important; /* Texto principal en Cian de alta tecnología */
+        font-family: 'Courier New', Courier, monospace !important;
+    }
+
+    /* Paneles laterales, tarjetas y main toman efecto Cristal de Comando */
+    main div, .col-span-1 a, .col-span-3, #contenidoSemana > div, header, footer {
+        background: rgba(6, 18, 36, 0.85) !important; /* Cristal azulado translúcido */
+        backdrop-filter: blur(8px) !important;
+        border: 1px solid #0055ff !important; /* Borde Azul Eléctrico de alta resistencia */
+        box-shadow: 0 0 15px rgba(0, 85, 255, 0.3), inset 0 0 15px rgba(0, 242, 254, 0.1) !important;
+        color: #00f2fe !important;
+    }
+
+    /* Forzar textos informativos e internos en un Cian limpio */
+    p, span, .italic, .text-gray-300, .text-blue-100 {
+        color: #00f2fe !important;
+        text-shadow: 0 0 4px rgba(0, 242, 254, 0.4) !important;
+    }
+
+    /* Títulos principales cambian a Naranja Industrial Brillante (Fuerza/Alerta) */
+    h1, h2, h3, h4, .font-bold {
+        color: #ff6a00 !important; /* Naranja de advertencia tecnológica */
+        text-shadow: 0 0 10px rgba(255, 106, 0, 0.8) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px;
+    }
+
+    /* Botón Iniciar Sesión y Enlaces del menú lateral (Estado pasivo) */
+    #btnSesion, .col-span-1 a {
+        transition: all 0.3s ease-in-out !important;
+        border: 1px solid #00f2fe !important;
+        color: #00f2fe !important;
+        background-color: rgba(4, 12, 24, 0.9) !important;
+    }
+
+    /* Al pasar el mouse, los botones se encienden en Naranja de Acción */
+    #btnSesion:hover, .col-span-1 a:hover {
+        background: #ff6a00 !important;
+        color: #000000 !important;
+        border-color: #ff6a00 !important;
+        box-shadow: 0 0 15px #ff6a00, 0 0 30px rgba(255, 106, 0, 0.5) !important;
+        font-weight: bold;
+    }
+
+    /* Encabezado y Pie de página blindados */
+    header, footer {
+        background: #02060f !important; /* Bloque sólido oscuro */
+        border-bottom: 2px solid #0055ff !important; /* Línea de energía azul */
+        box-shadow: 0 0 20px rgba(0, 85, 255, 0.4) !important;
+    }
+
+    footer {
+        border-top: 2px solid #0055ff !important;
+        border-bottom: none !important;
+    }
+
+    /* Estilos adaptados para los botones de Descarga que vienen de Supabase */
+    #contenidoSemana a {
+        background: transparent !important;
+        border: 1px solid #ff6a00 !important;
+        color: #ff6a00 !important;
+        text-shadow: 0 0 3px rgba(255, 106, 0, 0.5);
+        transition: all 0.2s ease !important;
+    }
+
+    #contenidoSemana a:hover {
+        background: #ff6a00 !important;
+        color: #000000 !important;
+        box-shadow: 0 0 15px #ff6a00 !important;
+        text-shadow: none;
+    }
   </style>
 </head>
 <body class="bg-black text-gray-100 fuente-formal">
