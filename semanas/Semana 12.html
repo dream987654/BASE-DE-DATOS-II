@@ -2,85 +2,128 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Semana 12 - Desarrollo de Aplicaciones</title>
+  <title>Semana 12 - Base de Datos II</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fuente formal -->
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    .fuente-formal { font-family: 'Merriweather', serif; }
+    /* Fondo total y textos por defecto */
+    body {
+        background-color: #030812 !important; /* Fondo azul noche ultra oscuro */
+        color: #00f2fe !important; /* Texto principal en Cian de alta tecnología */
+        font-family: 'Courier New', Courier, monospace !important;
+    }
+
+    /* Paneles laterales, tarjetas y main toman efecto Cristal de Comando */
+    main div, .col-span-1 a, .col-span-3, #contenidoSemana > div, header, footer {
+        background: rgba(6, 18, 36, 0.85) !important; /* Cristal azulado translúcido */
+        backdrop-filter: blur(8px) !important;
+        border: 1px solid #0055ff !important; /* Borde Azul Eléctrico de alta resistencia */
+        box-shadow: 0 0 15px rgba(0, 85, 255, 0.3), inset 0 0 15px rgba(0, 242, 254, 0.1) !important;
+        color: #00f2fe !important;
+    }
+
+    /* Forzar textos informativos e internos en un Cian limpio */
+    p, span, .italic, .text-gray-300, .text-blue-100 {
+        color: #00f2fe !important;
+        text-shadow: 0 0 4px rgba(0, 242, 254, 0.4) !important;
+    }
+
+    /* Títulos principales cambian a Naranja Industrial Brillante (Fuerza/Alerta) */
+    h1, h2, h3, h4, .font-bold {
+        color: #ff6a00 !important; /* Naranja de advertencia tecnológica */
+        text-shadow: 0 0 10px rgba(255, 106, 0, 0.8) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px;
+    }
+
+    /* Botón Iniciar Sesión y Enlaces del menú lateral (Estado pasivo) */
+    #btnSesion, .col-span-1 a {
+        transition: all 0.3s ease-in-out !important;
+        border: 1px solid #00f2fe !important;
+        color: #00f2fe !important;
+        background-color: rgba(4, 12, 24, 0.9) !important;
+    }
+
+    /* Al pasar el mouse, los botones se encienden en Naranja de Acción */
+    #btnSesion:hover, .col-span-1 a:hover {
+        background: #ff6a00 !important;
+        color: #000000 !important;
+        border-color: #ff6a00 !important;
+        box-shadow: 0 0 15px #ff6a00, 0 0 30px rgba(255, 106, 0, 0.5) !important;
+        font-weight: bold;
+    }
+
+    /* Encabezado y Pie de página blindados */
+    header, footer {
+        background: #02060f !important; /* Bloque sólido oscuro */
+        border-bottom: 2px solid #0055ff !important; /* Línea de energía azul */
+        box-shadow: 0 0 20px rgba(0, 85, 255, 0.4) !important;
+    }
+
+    footer {
+        border-top: 2px solid #0055ff !important;
+        border-bottom: none !important;
+    }
+
+    /* Estilos adaptados para los botones de Descarga que vienen de Supabase */
+    #contenidoSemana a {
+        background: transparent !important;
+        border: 1px solid #ff6a00 !important;
+        color: #ff6a00 !important;
+        text-shadow: 0 0 3px rgba(255, 106, 0, 0.5);
+        transition: all 0.2s ease !important;
+    }
+
+    #contenidoSemana a:hover {
+        background: #ff6a00 !important;
+        color: #000000 !important;
+        box-shadow: 0 0 15px #ff6a00 !important;
+        text-shadow: none;
+    }
   </style>
 </head>
 <body class="bg-black text-gray-100 fuente-formal">
 
   <!-- ENCABEZADO -->
   <header class="bg-gradient-to-r from-blue-500 to-black text-white py-6 shadow-md">
-  <div class="container mx-auto px-1 flex items-center justify-between">
-    
-    <!-- Imagen lateral izquierda -->
-    <img src="../Imagenes/upla.png" 
-         alt="Banner Semana" 
-         class="w-90 h-32 object-cover rounded-lg shadow-md">
-    
-    <!-- Texto centrado -->
-    <div class="flex-1 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">Semana 12</h1>
-      <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+    <div class="container mx-auto px-1 flex items-center justify-between">
+      <img src="../Imagenes/upla.png" alt="UPLA" class="w-90 h-32 object-cover rounded-lg shadow-md">
+      <div class="flex-1 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">Semana 9</h1>
+        <p class="mt-2 text-blue-100 text-lg">Andres Melvin Lazaro Estrada</p>
+      </div>
+      <div class="flex-1 text-right">
+        <a id="btnSesion" href="../login.html"
+           class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
+          📚 Iniciar sesión
+        </a>
+      </div>
     </div>
-    
-  </div>
-</header>
+  </header>
 
   <!-- CUERPO PRINCIPAL -->
   <main class="container mx-auto px-6 py-16">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 
-      <!-- Menú lateral fijo -->
+      <!-- Menú lateral -->
       <div class="col-span-1 space-y-4 sticky top-20 self-start">
-        <a href="../index.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-          🏠 Home
-        </a>
-        <a href="../git-github.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-          💻 Git y GitHub
-        </a>
-        <a href="../trabajos.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">
-          📚 Trabajos
-        </a>
+        <a href="../index.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">🏠 Home</a>
+        <a href="../Contacto.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">🧑 Contacto</a>
+        <a href="../trabajos.html" class="block bg-gray-900 hover:bg-gray-800 border border-blue-600 p-4 rounded-lg shadow-md text-center">📚 Trabajos</a>
       </div>
 
-      <!-- Contenido principal -->
-      <div class="col-span-3 bg-gray-900 border border-blue-600 rounded-lg p-8 shadow-md space-y-10">
+      <!-- Contenido dinámico -->
+      <div class="col-span-3 bg-gray-900 border border-blue-600 rounded-lg p-8 shadow-md space-y-6">
 
-        <!-- Caja única de enunciado -->
-        <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 rounded-lg shadow-lg text-center">
-          <h3 class="text-xl font-bold mb-2">📥 Descargar Enunciado del Ejercicio</h3>
-          <a href="../archivos/tarea aplicaciones semana 12.txt" download class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200">
-            Descargar TXT
-          </a>
-        </div>
-
-        <!-- Ejercicio 1 -->
-        <section>
-          <h2 class="text-2xl font-bold text-blue-300 mb-4">📘 Ejercicio 1</h2>
-          <p class="mb-4">
-            Este ejercicio corresponde a la primera práctica de la semana 12.
-          </p>
-
-          <!-- Caja GitHub -->
-          <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 rounded-lg shadow-lg text-center">
-            <h3 class="text-xl font-bold mb-2">🌍 Repositorio en GitHub</h3>
-            <a href="https://github.com/dream987654/Aplicaciones-Taller/tree/main/Tareas%20semanales/Actividad%20Semana%2012/Controladores" target="_blank" class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200">
-              Ver en GitHub
-            </a>
+        <div id="contenidoSemana">
+          <!-- Spinner de carga -->
+          <div class="flex flex-col items-center justify-center py-20 text-gray-500">
+            <svg class="animate-spin h-10 w-10 mb-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            <p class="italic">Cargando archivos desde Supabase...</p>
           </div>
-        </section>
-
-        <!-- Caja final de descarga RAR -->
-        <div class="bg-gradient-to-r from-blue-700 to-blue-900 p-6 rounded-lg shadow-lg text-center mt-10">
-          <h3 class="text-xl font-bold mb-2">📦 Descargar el Ejercicio (RAR)</h3>
-          <a href="../archivos/Tesis.rar" download class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200">
-            Descargar RAR
-          </a>
         </div>
 
       </div>
@@ -95,6 +138,100 @@
       <p class="text-lg">Universidad Peruana Los Andes (UPLA)</p>
     </div>
   </footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = "https://taacamsxwgjrmmgrejmf.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRhYWNhbXN4d2dqcm1tZ3Jlam1mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMjE2MzUsImV4cCI6MjA5Mjg5NzYzNX0.EzHzYh1neWRoocnPzwqEg72q4LJ_mB677E8nlXShvYs";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const UNIDAD  = 3;       // Unidad de esta semana
+    const SEMANA  = 4; // Número de semana
+
+    const contenedor  = document.getElementById('contenidoSemana');
+    const esAdmin     = localStorage.getItem('adminLogueado') === 'true';
+    const esSesion    = localStorage.getItem('userCorreo');
+
+    // Ajustar botón de sesión en el header
+    if (esSesion) {
+      const btn = document.getElementById('btnSesion');
+      btn.innerText = '🚪 Cerrar sesión';
+      btn.href = '#';
+      btn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.reload();
+      });
+    }
+
+    // ── Cargar archivos de esta semana desde Supabase ──────────────
+    async function cargarArchivos() {
+      const { data, error } = await supabase
+        .from('materiales')
+        .select('*')
+        .eq('unidad', UNIDAD)
+        .eq('semana', SEMANA)
+        .order('id', { ascending: true });
+
+      if (error) {
+        contenedor.innerHTML = `<p class="text-red-500 text-center">Error al cargar: ${error.message}</p>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        contenedor.innerHTML = `
+          <div class="text-center py-16 text-gray-600">
+            <p class="text-5xl mb-4">📭</p>
+            <p class="text-lg italic">Aún no hay archivos cargados para esta semana.</p>
+            ${esAdmin ? `<p class="text-xs text-blue-700 mt-2">Ve al panel admin para subir archivos.</p>` : ''}
+          </div>`;
+        return;
+      }
+
+      contenedor.innerHTML = '';
+      data.forEach((item, index) => {
+        const extension = item.url_archivo.split('.').pop().toLowerCase();
+        const icono = extension === 'pdf' ? '📄' : extension === 'exe' ? '💾' : '📎';
+
+        contenedor.innerHTML += `
+          <div class="bg-gradient-to-r from-blue-900 to-gray-900 border border-blue-700 rounded-xl p-6 shadow-lg">
+            <div class="flex justify-between items-start mb-4">
+              <h2 class="text-xl font-bold text-blue-300">${icono} Actividad ${index + 1}</h2>
+              ${esAdmin ? `
+                <button onclick="eliminarArchivo(${item.id}, '${item.url_archivo}')"
+                  class="bg-red-900 hover:bg-red-700 text-white text-xs px-3 py-1 rounded font-bold transition">
+                  🗑️ Eliminar
+                </button>` : ''}
+            </div>
+            <p class="text-gray-300 mb-5">${item.titulo}</p>
+            <div class="flex flex-wrap gap-3 justify-center">
+              <a href="https://github.com/dream987654/BASE-DE-DATOS-II/tree/main/Unidades/UNIDAD%203" target="_blank"
+                 class="bg-white text-blue-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
+                📥 Gut hub
+              </a>
+              <a href="${item.url_archivo}" target="_blank"
+                 class="bg-blue-700 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+                👁️ Ver archivo
+              </a>
+            </div>
+          </div>`;
+      });
+    }
+
+    // ── Eliminar (solo admin) ──────────────────────────────────────
+    window.eliminarArchivo = async (id, urlArchivo) => {
+      if (!confirm('¿Eliminar este archivo? Esta acción no se puede deshacer.')) return;
+
+      const rutaRelativa = urlArchivo.split('/storage/v1/object/public/materiales/')[1];
+      if (rutaRelativa) {
+        await supabase.storage.from('materiales').remove([rutaRelativa]);
+      }
+      await supabase.from('materiales').delete().eq('id', id);
+      cargarArchivos();
+    };
+
+    cargarArchivos();
+  </script>
 
 </body>
 </html>
